@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using soib;
 
 namespace soib.NET
 {
@@ -15,6 +16,8 @@ namespace soib.NET
         public Form1()
         {
             InitializeComponent();
+            Test1 tst = new Test1();
+            
         }
     }
 }
