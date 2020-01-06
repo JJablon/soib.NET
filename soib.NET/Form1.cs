@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using soib;
 
-namespace soib.NET
+namespace soib
 {
     public partial class Form1 : Form
     {
