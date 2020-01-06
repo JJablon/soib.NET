@@ -146,7 +146,13 @@ namespace soib
 
 
         }
-        public static List<int> findManualRoute(List<List<int>> list, int from, int to)
+
+    }
+
+    public static class RoutingController
+    {
+
+        public static List<int> findAnyManualRoute(List<List<int>> list, int from, int to)
         {
 
             foreach (List<int> element in list)
@@ -156,11 +162,13 @@ namespace soib
 
             }
             return null;
-
-
         }
-        public static List<int> returnManualRoute(List<List<int>> list, int from, int to)
+
+
+
+        public static List<int> returnShortestManualRoute(List<List<int>> list, int from, int to)
         {
+
             foreach (List<int> element in list)
             {
                 throw new NotImplementedException();
@@ -178,9 +186,8 @@ namespace soib
 
         }
 
+
     }
-
-
 
 
     public class NodeController
@@ -209,19 +216,62 @@ namespace soib
             {
                 foreach(var nodeB in nodes)
                 {
-                    if(!checkManualRoutingNodesConnectivity(nodeA.id, nodeB.id)) return false;
+                    if(!checkManualRoutingNodesReachability(nodeA.id, nodeB.id)) return false;
                 }
             }
             return true; //all nodes can be reached from each other
         }
 
-        public bool checkManualRoutingNodesConnectivity(int nodeA, int nodeB)
+        public bool checkManualRoutingNodesReachability(int nodeA, int nodeB)
         {
-            if(Utils.findManualRoute(this.manual_routes, nodeA, nodeB) ==null) return false;
+            if(RoutingController.findAnyManualRoute(this.manual_routes, nodeA, nodeB) ==null) return false;
             return true;
 
 
         }
+
+
+
+
+
+
+
+
+
+
+
+        public bool verifyManualRoutingAllNodesConnectivity()
+        {
+            foreach (var nodeA in nodes)
+            {
+                foreach (var nodeB in nodes)
+                {
+                    if (!checkManualRoutingNodesReachability(nodeA.id, nodeB.id)) return false;
+
+                    //List<int> nodes_through = Utils.
+
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                }
+            }
+            return true; //all nodes can be reached from each other
+        }
+
+
+
+        
+
+
+        public bool verifyManualRouting()
+        {
+            bool connectivity1 = checkManualRoutingAllNodesConnectivity();
+            bool connectivity2 = false;
+
+
+
+
+            return connectivity1 & connectivity2; 
+        }
+
 
     }
 
@@ -329,6 +379,7 @@ namespace soib
 
 
             Simulation sim5 = new Simulation();
+            //add zig-zag route
             List<int> route1 = new List<int>() { 1, 2, 3, 4, 5, 10, 9, 8, 7, 6, 11, 12, 13, 14, 15, 20, 19, 18, 17, 16, 21, 22, 23, 24, 25 };
             sim5.addManualRoute(route1);
             route1.Reverse();
