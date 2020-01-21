@@ -12,47 +12,15 @@ namespace soib
     {
 
     }
-    public class Packet
-    {
-        public int node_from;
-        public int node_to;
-        public List<int> node_through;
-        public string payload;
-
-        public Packet (int node_from, int node_to, List<int> node_through)
-        {
-            this.node_from = node_from;
-            this.node_to = node_to;
-            this.node_through = node_through;
-
-
-    }
-
-        public void AddRoute(List<int> route)
-        {
-            int[] array = new int[0];
-            route.CopyTo(array);
-            this.node_through = array.ToList<int>();
-        }
-
-        public Packet copy(Packet source)
-        {
-            return new Packet(source.node_from, source.node_to, Utils.copyList<int>(source.node_through));
-
-        }
-
-
-
-
-    }
+    
 
     public class NetworkNode 
     {
         public int id;
-        public int left_neighbor_id;
-        public int right_neighbor_id;
-        public int down_neighbor_id;
-        public int up_neighbor_id;
+        //public int left_neighbor_id;
+        //public int right_neighbor_id;
+        //public int down_neighbor_id;
+        //public int up_neighbor_id;
         public Queue<Packet> buffer_in;
         public Queue<Packet> buffer_out;
 
@@ -68,13 +36,16 @@ namespace soib
         //packets deleted due to exceeded TTL:
         public int stat_TTL_exceeded_packet_count = 0;
 
-        public NetworkNode(int node_id, int node_left_neighbor_id, int node_right_neighbor_id, int node_up_neighbor_id, int node_down_neighbor_id)
+        //packets deleted due to overloaded queue (buffer):
+        public int stat_buffer_full_packet_count = 0;
+
+        public NetworkNode(int node_id)
         {
             this.id = node_id;
-            this.left_neighbor_id = node_left_neighbor_id;
-            this.right_neighbor_id = node_right_neighbor_id;
-            this.down_neighbor_id = node_down_neighbor_id;
-            this.up_neighbor_id = node_up_neighbor_id;
+            //this.left_neighbor_id = node_left_neighbor_id;
+            //this.right_neighbor_id = node_right_neighbor_id;
+            //this.down_neighbor_id = node_down_neighbor_id;
+            //this.up_neighbor_id = node_up_neighbor_id;
             this.buffer_in = new Queue<Packet>();
             this.buffer_out = new Queue<Packet>();
 
@@ -83,181 +54,17 @@ namespace soib
             this.stat_packets_term = 0;
             this.stat_reached_dest_TTL_sum = 0;
             this.stat_TTL_exceeded_packet_count = 0;
-
-
-
-
-
+            this.stat_buffer_full_packet_count = 0;
         }
         public int getId()
         {
             return this.id;
         }
+        
+
+       // public void RelayPacket 
     }
 
-    public static class Utils
-    {
-        public static List<T> copyList<T>(List<T> list)
-        {
-            if (list.Count > 0)
-            {
-                T[] array = new T[list.Count];
-                list.CopyTo(array);
-                return array.ToList<T>();
-            }
-            else return null;
-            //else throw new ArgumentNullException();
-        }
-
-        public static List<T> getListFromListOfLists<T>(List<List<T>> list, int id)
-        {
-            if (id >= 0 && id < list.Count)
-                return list[id];
-            else
-                throw new IndexOutOfRangeException();
-
-        }
-        public static T getLastListElement<T>(List<T> list)
-        {
-            if (list.Count > 0)
-                return list[list.Count];
-            else
-                throw new ArgumentNullException();
-
-        }
-        public static T getFirstListElement<T>(List<T> list)
-        {
-            if (list.Count > 0)
-                return list[0];
-            else
-                throw new ArgumentNullException();
-
-        }
-        public static List<NetworkNode> findInNodeListByFirstLastElement(List<List<NetworkNode>> list, int first, int last)
-        {
-            foreach(List<NetworkNode> element in list)
-            {
-                NetworkNode n = (NetworkNode)getFirstListElement<NetworkNode>(element);
-                NetworkNode n1 = getLastListElement(element);
-
-                
-                if (n.id== first && n1.id == last)
-                    return element;
-               
-
-
-            }
-            return null;
-
-
-        }
-
-    }
-
-    public static class RoutingController
-    {
-
-        public static List<int> findAnyManualRoute(List<List<int>> list, int from, int to)
-        {
-            if (from != to)
-                foreach (List<int> element in list)
-                {
-
-                    if (element.Contains<int>(from) && element.Contains<int>(to))
-                    {
-                        List<int> from_ind = findIndicies(element, from);
-                        List<int> to_ind = findIndicies(element, to);
-                        if (from_ind.Min() < to_ind.Max())
-                        {
-                            return Utils.copyList<int>(element.GetRange(findIndicies(element, from).Min(), findIndicies(element, to).Max() - findIndicies(element, from).Min()));
-
-                        }
-                        
-                        //return element;
-                    }
-                }
-            else return new List<int> { from };
-            return null;
-        }
-
-        public static List<int> findIndicies(List<int> list, int value)
-        {
-            List<int> returned = new List<int>();
-            if (list.Count > 0) {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    if (list[i] == value) returned.Add( i) ;
-                }
-                if (returned.Count == 0) return null;
-                return returned;
-
-            }
-            return null;
-
-        }
-
-
-        /*  public static List<int> returnShortestManualRoute(List<List<int>> list, int from, int to)
-          {
-              if (list.Count > 0&&from>=0&&to>=0&&from<list.Count&&to<list.Count) {
-                  List<List<int>> routes = new List<List<int>>();
-                  foreach (List<int> element in list)
-                  {
-                      if (element.Contains<int>(from) && element.Contains<int>(to))
-                      {
-                          if (findIndex(element, from) > findIndex(element, to)) { }
-
-
-
-                  }
-                      routes.Add(element);
-                  }
-
-
-                  if (routes.Count == 0) return null;
-                  else
-                  {
-                      List<int> shortest_route = new List<int>();
-                      foreach (List<int> element in routes)
-                      {
-                          if (shortest_route.Count == 0) shortest_route = Utils.copyList<int>(element);
-                          if (shortest_route.Count > element.Count)
-                          {
-                              shortest_route = Utils.copyList<int>(element);
-                          }
-
-                      }
-
-
-                  }
-
-              }
-
-              else return 0;
-
-
-          }
-
-      */
-    }
-
-    public class Link
-    {
-        public int id = 0;
-        public int node_from_id = 0;
-        public int node_to_id = 0;
-        public Enums.direction direction;
-
-        public Link(int id, int node_from_id, int node_to_id, Enums.direction direction)
-        {
-            this.id = id;
-            this.node_from_id = node_from_id;
-            this.node_to_id = node_to_id;
-            this.direction = direction;
-        }
-
-
-    }
 
     public class NodeController
     {
@@ -265,46 +72,205 @@ namespace soib
         public List<Link> links = new List<Link>();
 
         public  List<List<int>> manual_routes;
-        public Random random;
+        public Random random_gen_for_routing;
+        public Random random_gen_for_packet_generation;
+        public int invalid_termination = 0;
+        public List<string> forward_history = new List<string>();
+        public void RefreshStats()
+        {
+            SimulationStats.clearStats();
+            foreach (NetworkNode n in nodes)
+            {
+                SimulationStats.total_buffer_full_packet_count += n.stat_buffer_full_packet_count;
+                SimulationStats.total_packets_gen_count += n.stat_packets_gen;
+                SimulationStats.total_packets_term_count += n.stat_packets_term;
+                SimulationStats.total_packets_trans_count += n.stat_packets_trans;
+                SimulationStats.total_reached_dest_TTL_sum += n.stat_reached_dest_TTL_sum;
+                SimulationStats.total_TTL_exceeded_packet_count += n.stat_TTL_exceeded_packet_count;
+
+
+            }
+
+
+
+        }
+        public NetworkNode getNodeById(int id)
+        {
+            foreach (NetworkNode n in nodes)
+            {
+                if (n.getId() == id)
+                    return n;
+            }
+            return null;
+        }
+
+        public void SimulationTick(int tick_no)
+        {
+            for(int n = 0; n < SimulationParams.lambda; n++)
+            {
+                if (SimulationParams.network_size < 2) throw new IndexOutOfRangeException();
+                int from = -1;
+                int to = -1;
+                while (true)
+                {
+                     from = random_gen_for_packet_generation.Next(1, nodes.Count);
+                     to = random_gen_for_packet_generation.Next(1, nodes.Count);
+                    if (from != to) break;
+                }
+
+                if (SimulationParams.routing_algorithm == 3 || SimulationParams.routing_algorithm == 2)
+                {
+                    int retries = 100;
+                    List<int> route = new List<int>();
+                    if (SimulationParams.routing_algorithm == 2) route = findRandomRoute(from, to, 10);
+                    else
+                         route = RoutingController.findAnyManualRoute(manual_routes, from, to);
+
+
+                    getNodeById(from).buffer_in.Enqueue(new Packet(from, to, route, SimulationParams.TTL));
+                    getNodeById(from).stat_packets_gen++;
+
+
+
+                }
+                else
+                {
+                    throw new NotImplementedException("not implemented");
+                }
+
+            }
+
+            foreach (NetworkNode n in nodes)
+            {
+                //handle 1 packet from in queue
+                if (n.buffer_in.Count>0 && n.buffer_in.Peek().last_tick_id_which_transitioned != tick_no)
+                {
+                    if (n.buffer_in.Peek().last_tick_id_which_transitioned > tick_no)
+                        throw new Exception("invalid tick_no");
+
+                    //packet was sent in one of previous ticks
+                    Packet p = n.buffer_in.Dequeue().copy();
+                    p.TTL--;
+                    if (p.TTL <= 0) n.stat_TTL_exceeded_packet_count++;
+                    else
+                    {
+                        if (p.uuid == 4)
+                        {
+                            int visited = p.stat_nodes_visited;
+                            List<int> through = p.node_through;
+                             long uuid = p.uuid;
+                        }
+                        //TTL indicates that packet can be forwarded
+                        if (p.node_to == n.id) //packet reaches destination
+                        {
+                            n.stat_packets_term++;
+                            n.stat_reached_dest_TTL_sum += p.TTL;
+                        }
+                        else  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@#$
+                        {
+                            if (p.node_through.Count > 0 && p.node_through[0] == n.id)
+                            {
+                                p.node_through.RemoveAt(0);
+                                if (p.uuid == 4)
+                                {
+
+                                }
+                                p.stat_nodes_visited++;
+                                n.stat_packets_trans++;
+                                if (p.node_through.Count > 0)
+                                    if (getNodeById(p.node_through[0]).buffer_in.Count >= SimulationParams.buffer_size)
+                                    {
+                                        getNodeById(p.node_through[0]).stat_buffer_full_packet_count++;
+
+
+                                    }
+                                    else
+                                    {
+                                        forward_history[p.node_through[0]] += p.uuid + ", ";
+                                        p.node_visited_history.Add(n.id);
+                                        getNodeById(p.node_through[0]).buffer_in.Enqueue(p.getPacketCopyWithLastTickSet(tick_no));
+
+                                    }
+
+                                else
+                                    //throw new Exception("this packet should have been terminated");
+                                    Console.WriteLine("this packet: " + p.uuid + " should have been terminated, count: "+(++invalid_termination));
+
+                            }
+                            else
+                            {
+                                throw new Exception("invalid node_through entry or structure");
+                            }
+
+                        }
+                    }
+                }
+                else
+                {
+                    //do nothing; as the packet was sent in this tick and 
+                    //because of that if could not have been received
+                    //on the dest node already
+                }
+            }
+        }
+
+
 
         public NodeController(List<NetworkNode> nodes, List<Link> links, int seed=0)
         {
             if (seed == 0)
-                this.random = new Random();
+                this.random_gen_for_routing = new Random();
             else
-                this.random = new Random(seed);
+                this.random_gen_for_routing = new Random(seed);
+            if (seed == 0)
+                this.random_gen_for_packet_generation = new Random();
+            else
+                this.random_gen_for_packet_generation = new Random(seed);
+
             this.nodes = Utils.copyList<NetworkNode>(nodes);
             this.links = Utils.copyList<Link>(links);
             manual_routes = new List<List<int>>();
+            foreach(NetworkNode n in nodes)
+            {
+                forward_history.Add("");
+            }
+            forward_history.Add("");
+            /*
+                int retries = 100;
+            var a = findRandomRoute(1, 20, retries);
+            var a1 = findRandomRoute(1, 20, retries);
+            var a2 = findRandomRoute(1, 20, retries);
+            var b = findRandomRoute(1, 1, retries);
+            var b2 = findRandomRoute(1, 1, retries);
+            var b3 = findRandomRoute(1, 1, retries);
+            var c = findRandomRoute(1, 2, retries);
+            var c1 = findRandomRoute(1, 2, retries);
+            var c2 = findRandomRoute(1, 2, retries);
+
+            var d = findRandomRoute(1, 3, retries);
+            var e = findRandomRoute(1, 4, retries);
+            var f = findRandomRoute(1, 5, retries);
+            var g = findRandomRoute(5, 1, retries);
+            var h = findRandomRoute(5, 2, retries);
+            var i = findRandomRoute(5, 3, retries);
+            var i1 = findRandomRoute(5, 3, retries);
+            var i2 = findRandomRoute(5, 3, retries);
+            var i3 = findRandomRoute(5, 3, retries);
+            var i4 = findRandomRoute(5, 3, retries);
+            var i5 = findRandomRoute(5, 3, retries);
+            var i6 = findRandomRoute(5, 3, retries);
+            var i7 = findRandomRoute(5, 3, retries);
+            var i8 = findRandomRoute(5, 3, retries);
+            var i9 = findRandomRoute(5, 3, retries);*/
 
 
-            var a = findRandomRoute(1, 20);
-            var a1 = findRandomRoute(1, 20);
-            var a2 = findRandomRoute(1, 20);
-            var b = findRandomRoute(1, 1);
-            var b2 = findRandomRoute(1, 1);
-            var b3 = findRandomRoute(1, 1);
-            var c = findRandomRoute(1, 2);
-            var c1 = findRandomRoute(1, 2);
-            var c2 = findRandomRoute(1, 2);
 
-            var d = findRandomRoute(1, 3);
-            var e = findRandomRoute(1, 4);
-            var f = findRandomRoute(1, 5);
-            var g = findRandomRoute(5, 1);
-            var h = findRandomRoute(5, 2);
-            var i = findRandomRoute(5, 3);
-            var i1 = findRandomRoute(5, 3);
-            var i2 = findRandomRoute(5, 3);
-            var i3 = findRandomRoute(5, 3);
-            var i4 = findRandomRoute(5, 3);
-            var i5 = findRandomRoute(5, 3);
-            var i6 = findRandomRoute(5, 3);
-            var i7 = findRandomRoute(5, 3);
-            var i8 = findRandomRoute(5, 3);
-            var i9 = findRandomRoute(5, 3);
-        }
 
+        } 
+        /// <summary>
+        /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="added_route"></param>
         public void addManualRoute(List<int> added_route)
         {
             manual_routes.Add(Utils.copyList<int>(added_route));
@@ -331,6 +297,7 @@ namespace soib
                         if (enable_logging == true) {
                             //Console.Beep();
                             Console.WriteLine("No route from node " + nodeA.id + " and " + nodeB.id);
+                            
                         }
                         //listBox1.Items.Add();
                         //return false;
@@ -356,22 +323,28 @@ namespace soib
 
         }
 
-        public List<int> findRandomRoute(int from, int to)
+        public List<int> findRandomRoute(int from, int to, int retries)
         {
-            int current_node = from;
-            int counter = 0;
             List<int> route = new List<int>();
-            while(current_node != to)
+            while (true)
             {
-                counter++;
-                route.Add(current_node);
-                current_node = getRandomNextNodeDirectlyConnectedTo(current_node);
-
-                if (counter > SimulationParams.network_size * 100) return null;
+                int current_node = from;
+                int counter = 0;
+                route.Clear();
+                while (current_node != to)
+                {
+                    counter++;
+                    route.Add(current_node);
+                    current_node = getRandomNextNodeDirectlyConnectedTo(current_node);
+                    if (counter > SimulationParams.TTL) break;
+                }
+                if (counter > SimulationParams.TTL) continue;
+                if (from == to) return new List<int> { from };
+                if (current_node == to) return route;
+                if (route.Count == 0) throw new ArgumentNullException();
+                retries--;
+                if (retries <= 0) return null;
             }
-            if (from == to) return new List<int> { from };
-            if (route.Count == 0) throw new ArgumentNullException();
-            return route;
         }
 
 
@@ -384,7 +357,7 @@ namespace soib
                 if (l.node_from_id == node_id) links_from_node.Add(l);
             }
             if (links_from_node.Count == 0) throw new ArgumentNullException();
-            int rand = random.Next(0, links_from_node.Count);
+            int rand = random_gen_for_routing.Next(0, links_from_node.Count);
             return links_from_node[rand].node_to_id;
 
             
@@ -445,158 +418,6 @@ namespace soib
 
     }
 
-    public static class SimulationParams
-    {
-
-        public static int network_size;
-        public static int lambda;
-        public static int TTL;
-        public static int buffer_size;
-        public static int routing_algorithm;
-        
-
-        public static void clearParams()
-        {
-            network_size = 0;
-            lambda = 0;
-            TTL = 0;
-            buffer_size = 0;
-            routing_algorithm = 0;
-        }
-        
-
-    }
-    public static class SimulationStats
-    {
-        //counts of packets
-        public static int total_packets_trans_count = 0; //packets forwarded count (all nodes)
-        public static int total_packets_gen_count = 0; //packets introduced to network (all nodes) count
-        public static int total_packets_term_count = 0; //packets which reached destination (all nodes)
-        public static int total_TTL_exceeded_packet_count = 0;
-
-        //sum of TTL of packets terminated
-        public static int total_reached_dest_TTL_sum = 0;//this is the sum of 'TTL_current' fields (in all nodes) of packets which so reached destination in the node
-        public static void clearStats()
-        {
-            total_packets_trans_count = 0;
-            total_packets_gen_count = 0;
-            total_packets_term_count = 0;
-            total_TTL_exceeded_packet_count = 0;
-            total_reached_dest_TTL_sum = 0;
-        }
-    }
-
-    public class Enums
-    {
-        public enum direction { left, right, up, down };
 
 
-    }
-
-    public class Simulation
-    {
-
-        public NodeController nc;
-        public Simulation(int network_size) {
-            SimulationParams.clearParams();
-            SimulationStats.clearStats();
-            SimulationParams.network_size = network_size;
-            List<NetworkNode> nodes = new List<NetworkNode>();
-            List<Link> links = new List<Link>();
-            int link_id=0;
-            int id = 0;
-            //i - rows
-            //j - columns
-            //up, down, right, left - ids of neighbours
-            if (SimulationParams.network_size > 0) {
-                for (int i = 1; i <= SimulationParams.network_size; i++) {
-                    for (int j = 1; j <= SimulationParams.network_size; j++) {
-                        id++;
-                        int right = SimulationParams.network_size * (i - 1) + j + 1;
-                        int left = SimulationParams.network_size * (i - 1) + j - 1;
-                        int up = SimulationParams.network_size * (i - 2) + j;
-                        int down = SimulationParams.network_size * i + j;
-                        //overwrite above values in special cases:
-                        if (i == 1) up = SimulationParams.network_size * (SimulationParams.network_size - 1) + j;
-                        if (i == SimulationParams.network_size) down = j;
-                        if (j == 1) left = SimulationParams.network_size * i;
-                        if (j == SimulationParams.network_size) right = SimulationParams.network_size * (i - 1) + 1;
-
-                        //add links with proper directions
-                        if (i % 2 == 1) links.Add(new Link(++link_id, id, right, Enums.direction.right));
-                        if (i % 2 == 0) links.Add(new Link(++link_id, right, id, Enums.direction.left));
-
-                        if (j % 2 == 1) links.Add(new Link(++link_id, id, up, Enums.direction.up));
-                        if (j % 2 == 0) links.Add(new Link(++link_id, up, id, Enums.direction.down));
-
-                        //add node
-                        nodes.Add(new NetworkNode(id, left, right, up, down));
-                        
-                    }
-                }
-                nc = new NodeController(nodes, links);
-            }
-        }
-
-        public void addManualRoute(List<int> route)
-        {
-            //if(nc != null)
-            {
-                nc.addManualRoute(route);
-            }
-            //else
-            {
-               // throw new Exception();
-            }
-
-        }
-
-        public bool checkManualRoutingAllRoutesConnectivity(bool enable_logging = false)
-        {
-            return nc.checkManualRoutingAllNodesConnectivity(enable_logging);
-        }
-
-    }
-
-
-        public class Test1
-        {
-
-            public Test1()
-            {
-              
-                Simulation sim5 = new Simulation(5);
-                int[] parameters = new int[] { 0, 0, 0, 0 };
-                SimulationParams.lambda = parameters[0];
-                SimulationParams.TTL = parameters[1];
-                SimulationParams.buffer_size = parameters[2];
-                SimulationParams.routing_algorithm = parameters[3];
-
-
-            //add zig-zag route                                  25
-            List<int> route1 = new List<int>() { 1, 2, 3, 4, 5,  25,  20,19,18,17,16,  11,12,13,14,15,  10,9,8,7,6,  1,  21,22,23,24,25,
-                //back
-                21,16,11,6,
-                //again
-                1, 2, 3, 4, 5,  25,  20,19,18,17,16,  11,12,13,14,15,  10,9,8,7,6,  1,  21,22,23,24,25
-                };
-
-
-                sim5.addManualRoute(route1);
-                //route1.Reverse();
-                //sim5.addManualRoute(route1);
-                bool b = sim5.checkManualRoutingAllRoutesConnectivity(true);
-
-
-
-                Simulation sim4 = new Simulation(4);
-
-            }
-
-
-
-    }
-
-
-    
 }
