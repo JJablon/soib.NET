@@ -69,7 +69,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.simulationLength = new System.Windows.Forms.NumericUpDown();
-            this.Step = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.Stop = new System.Windows.Forms.Button();
             this.Run = new System.Windows.Forms.Button();
@@ -183,7 +182,7 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.RandSeed);
-            this.groupBox5.Location = new System.Drawing.Point(13, 541);
+            this.groupBox5.Location = new System.Drawing.Point(13, 536);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(268, 46);
             this.groupBox5.TabIndex = 1;
@@ -218,7 +217,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(274, 526);
+            this.groupBox1.Size = new System.Drawing.Size(274, 574);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Simulation";
@@ -363,9 +362,9 @@
             this.groupBox3.Controls.Add(this.RoutingRandom);
             this.groupBox3.Controls.Add(this.RoutingShortest);
             this.groupBox3.Controls.Add(this.RoutingManual);
-            this.groupBox3.Location = new System.Drawing.Point(11, 275);
+            this.groupBox3.Location = new System.Drawing.Point(11, 251);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(257, 245);
+            this.groupBox3.Size = new System.Drawing.Size(257, 269);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Routing";
@@ -402,10 +401,10 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(8, 172);
+            this.textBox2.Location = new System.Drawing.Point(8, 174);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(243, 67);
+            this.textBox2.Size = new System.Drawing.Size(243, 80);
             this.textBox2.TabIndex = 4;
             // 
             // textBox1
@@ -413,7 +412,7 @@
             this.textBox1.Location = new System.Drawing.Point(10, 89);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(241, 77);
+            this.textBox1.Size = new System.Drawing.Size(241, 79);
             this.textBox1.TabIndex = 3;
             this.textBox1.Text = "1, 2, 3, 4, 5,  25,  20,19,18,17,16,  11,12,13,14,15,  10,9,8,7,6,  1,  21,22,23," +
     "24,25,\r\n21,16,11,6,\r\n1, 2, 3, 4, 5,  25,  20,19,18,17,16,  11,12,13,14,15,  10,9" +
@@ -464,14 +463,13 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.simulationLength);
-            this.groupBox2.Controls.Add(this.Step);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.Stop);
             this.groupBox2.Controls.Add(this.Run);
             this.groupBox2.Controls.Add(this.Pause);
             this.groupBox2.Location = new System.Drawing.Point(6, 116);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(262, 153);
+            this.groupBox2.Size = new System.Drawing.Size(262, 129);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Timing";
@@ -572,16 +570,6 @@
             0,
             0});
             this.simulationLength.ValueChanged += new System.EventHandler(this.simulationLength_ValueChanged);
-            // 
-            // Step
-            // 
-            this.Step.Enabled = false;
-            this.Step.Location = new System.Drawing.Point(13, 123);
-            this.Step.Name = "Step";
-            this.Step.Size = new System.Drawing.Size(202, 23);
-            this.Step.TabIndex = 7;
-            this.Step.Text = "Step";
-            this.Step.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -702,15 +690,16 @@
             // 
             this.simulationTime.Location = new System.Drawing.Point(96, 71);
             this.simulationTime.Name = "simulationTime";
+            this.simulationTime.ReadOnly = true;
             this.simulationTime.Size = new System.Drawing.Size(86, 20);
             this.simulationTime.TabIndex = 19;
             this.simulationTime.Text = "16";
             // 
             // groupBox4
             // 
-            this.groupBox4.Location = new System.Drawing.Point(287, 13);
+            this.groupBox4.Location = new System.Drawing.Point(292, 13);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(170, 574);
+            this.groupBox4.Size = new System.Drawing.Size(166, 574);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Buffers load";
@@ -722,6 +711,7 @@
             this.ClientSize = new System.Drawing.Size(1009, 612);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.statusStrip1.ResumeLayout(false);
@@ -760,7 +750,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown TTL;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button Step;
         private System.Windows.Forms.Button Stop;
         private System.Windows.Forms.Button Pause;
         private System.Windows.Forms.Button Run;
