@@ -39,6 +39,9 @@ namespace soib
         //packets deleted due to overloaded queue (buffer):
         public int stat_buffer_full_packet_count = 0;
 
+        public int stat_total_hops_count;
+
+
         public NetworkNode(int node_id)
         {
             this.id = node_id;
@@ -55,6 +58,7 @@ namespace soib
             this.stat_reached_dest_TTL_sum = 0;
             this.stat_TTL_exceeded_packet_count = 0;
             this.stat_buffer_full_packet_count = 0;
+            this.stat_total_hops_count = 0;
         }
         public int getId()
         {
@@ -76,7 +80,23 @@ namespace soib
         public Random random_gen_for_packet_generation;
         public int invalid_termination = 0;
         public List<string> forward_history = new List<string>();
-        public void RefreshStats()
+
+
+        public List<int> getBufferLoad()
+        {
+            List<int> load = new List<int>();
+            foreach(NetworkNode n in nodes)
+            {
+                load.Add(n.buffer_in.Count );
+
+
+            }
+            return load;
+
+
+        }
+
+        public List<int> RefreshStats()
         {
             SimulationStats.clearStats();
             foreach (NetworkNode n in nodes)
@@ -87,10 +107,11 @@ namespace soib
                 SimulationStats.total_packets_trans_count += n.stat_packets_trans;
                 SimulationStats.total_reached_dest_TTL_sum += n.stat_reached_dest_TTL_sum;
                 SimulationStats.total_TTL_exceeded_packet_count += n.stat_TTL_exceeded_packet_count;
-
+                SimulationStats.total_packets_remaining_in_buffers += (n.buffer_in.Count + n.buffer_out.Count);
+                SimulationStats.total_sum_hops += n.stat_total_hops_count;
 
             }
-
+            return getBufferLoad();
 
 
         }
@@ -165,6 +186,8 @@ namespace soib
                         {
                             n.stat_packets_term++;
                             n.stat_reached_dest_TTL_sum += p.TTL;
+                            n.stat_total_hops_count += p.node_visited_history.Count;
+                            //n.stat_total_hops_count += p.stat_nodes_visited;
                         }
                         else  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@#$
                         {

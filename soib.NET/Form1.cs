@@ -30,6 +30,7 @@ namespace soib
             this.DroppedTTL.Text = "";
             this.DroppedBufferSize.Text = "";
             this.DropRatio.Text = "";
+            this.splitContainer1.SplitterDistance = 290;
 
             
         }
@@ -104,12 +105,27 @@ namespace soib
 
         private void simulationLength_ValueChanged(object sender, EventArgs e)
         {
-            simulationTime.Value = simulationLength.Value * stepTime.Value / 1000;
+
+            if(simulationLength.Value * stepTime.Value * 16 / 1000 < 2)
+            {
+                simulationTime.Text = (simulationLength.Value * stepTime.Value * 16 / 1000).ToString("0.00");
+            }
+            else
+            {
+                simulationTime.Text = (simulationLength.Value * stepTime.Value * 16 / 1000).ToString("#");
+            }
         }
 
         private void stepTime_ValueChanged(object sender, EventArgs e)
         {
-            simulationTime.Value = simulationLength.Value * stepTime.Value / 1000;
+            if (simulationLength.Value * stepTime.Value * 16 / 1000 < 2)
+            {
+                simulationTime.Text = (simulationLength.Value * stepTime.Value * 16 / 1000).ToString("0.00");
+            }
+            else
+            {
+                simulationTime.Text = (simulationLength.Value * stepTime.Value * 16 / 1000).ToString("#");
+            }
             timer1.Interval = (int)stepTime.Value;
         }
 
@@ -154,14 +170,99 @@ namespace soib
         private bool isPaused = false;
         private int currentTick=0;
         Simulation simulation;
+        List<Label> nodesLabels;
+        List<Label> nodesLoadNumberLabels;
+        List<ProgressBar> nodesLoads;
 
         private void Run_Click(object sender, EventArgs e)
         {
-            
-            
-            
+            if (nodesLabels != null && nodesLabels.Count > 0)
+            {
+                foreach( Label l in nodesLabels)
+                {
+                    this.groupBox4.Controls.Remove(l);
+                    l.Dispose();
+                }
+
+            }
+            if (nodesLoads != null && nodesLoads.Count > 0)
+            {
+                foreach (ProgressBar p in nodesLoads)
+                {
+                    this.groupBox4.Controls.Remove(p);
+                    p.Dispose();
+                }
+
+            }
+            if (nodesLoadNumberLabels != null && nodesLoadNumberLabels.Count > 0)
+            {
+                foreach (Label l in nodesLoadNumberLabels)
+                {
+                    this.groupBox4.Controls.Remove(l);
+                    l.Dispose();
+                }
+
+            }
+            nodesLabels = new List<Label>();
+            nodesLoadNumberLabels = new List<Label>();
+            nodesLoads = new List<ProgressBar>();
+            for (int i=0;i< (int)this.networkSize.Value* (int)this.networkSize.Value; i++)
+            {
+                Label l = new Label();
+                ProgressBar p = new ProgressBar();
+                Label l2 = new Label();
+                l.AutoSize = true;
+                l.Location = new System.Drawing.Point(4, (i+1)*23+3);
+                l.Name = "NodeLabel"+(i+1);
+                l.Size = new System.Drawing.Size(39, 13);
+                l.Text = "Node"+(i+1);
+
+
+                p.Location = new System.Drawing.Point(50, (i + 1) * 23);
+                p.Name = "NodeProgressBar" + (i + 1);
+                p.Size = new System.Drawing.Size(80, 19);
+                p.Value = 0;
+                p.Maximum = (int)this.BufferSize.Value + 1;
+                p.Minimum = 0;
+
+
+
+                l2.AutoSize = true;
+                l2.Location = new System.Drawing.Point(15+ p.Size.Width+l.Size.Width
+                    , (i + 1) * 23 + 3);
+                l2.Name = "NodeLoadNumberLabel" + (i + 1);
+                l2.BackColor = System.Drawing.Color.Transparent;
+                l2.Size = new System.Drawing.Size(20, 7);
+                l2.Text = "";
+                l2.BringToFront();
+                l2.BringToFront();
+                l2.BringToFront();
+                l2.BringToFront();
+                l2.BringToFront();
+                l2.BringToFront();
+
+
+
+                nodesLoads.Add(p);
+                nodesLabels.Add(l);
+                nodesLoadNumberLabels.Add(l2);
+                this.groupBox4.Controls.Add(p);
+                this.groupBox4.Controls.Add(l);
+                this.groupBox4.Controls.Add(l2);
+                l2.BringToFront();
+                l2.BringToFront();
+                l2.BringToFront();
+                l2.BringToFront();
+                l2.BringToFront();
+                l2.BringToFront();
+
+
+            }
+
+
             if (!isRunning&&!isPaused)
             {
+                this.splitContainer1.SplitterDistance = 460;
                 int seed = 0;
                 if (RandSeed.Text.Length > 0) seed = Int32.Parse(RandSeed.Text);
                 this.simulation = new Simulation((int)this.networkSize.Value,seed);
@@ -285,7 +386,13 @@ namespace soib
                 this.Pause.Enabled = true;
                 this.Step.Enabled = false;
                 this.Stop.Enabled = true;
+                this.richTextBox1.Text += " \n";
                 this.richTextBox1.Text += "Simulation started at " + DateTime.Now.ToLongTimeString() + "\n";
+                this.richTextBox1.Text += "with parameters: \n";
+                this.richTextBox1.Text += "λ = " + SimulationParams.lambda + " packets per simulation step\n";
+                this.richTextBox1.Text += "TTL (time to live - number of hops after which packet is removed) = " + SimulationParams.TTL + "\n";
+                this.richTextBox1.Text += "buffer size = " + SimulationParams.buffer_size+ " packets\n";
+                this.richTextBox1.Text += "network size = " + SimulationParams.network_size +"x"+ SimulationParams.network_size+ " nodes \n";
             }
 
 
@@ -316,21 +423,53 @@ namespace soib
             catch (Exception) { }
 
             simulation.SimulationTick(currentTick++);
+            List<int> bufferLoad = 
             simulation.RefreshStats();
+            int i = 0;
+            foreach(int load in bufferLoad)
+            {
+                try
+                {
+                    this.nodesLoads[i].Value = load;
+
+                }
+                catch (IndexOutOfRangeException) { }
+                catch (ArgumentOutOfRangeException) { }
+                try
+                {
+                    this.nodesLoadNumberLabels[i].Text = load + "";
+                }
+                catch (IndexOutOfRangeException) { }
+                catch (ArgumentOutOfRangeException) { }
+                i++;
+            }
+
             Transmitted.Text = transmitted_caption + SimulationStats.total_packets_gen_count + "   ";
             DroppedTTL.Text = TTL_dropped_caption + SimulationStats.total_TTL_exceeded_packet_count + "   "; 
             DroppedBufferSize.Text = buffer_dropped_caption + SimulationStats.total_buffer_full_packet_count + "   ";
             DropRatio.Text = drop_ratio_text +
                 ((double)((double)SimulationStats.total_buffer_full_packet_count +
                 (double)SimulationStats.total_TTL_exceeded_packet_count) / (double)SimulationStats.total_packets_gen_count).ToString("0.##")
-                + "%    "
+                + "% "
                 ;
             Packets_received.Text = "Packets received: " + SimulationStats.total_packets_term_count;
 
-
+            if (currentTick >= simulationLength.Value)
+            {
+               
+                this.richTextBox1.Text += "Simulation finished because of reaching destination length of " + simulationLength.Value + " steps\n";
+                StopSimulation();
+                //SimulationFinished();
+            }
         }
 
         private void Stop_Click(object sender, EventArgs e)
+        {
+            StopSimulation();
+
+        }
+
+        private void StopSimulation()
         {
             timer1.Enabled = false;
             if (isRunning || isPaused)
@@ -345,12 +484,13 @@ namespace soib
 
 
             }
-
         }
+
 
         private void SimulationFinished()
         {
             this.richTextBox1.Text += "Simulation finished at " + DateTime.Now.ToLongTimeString() + "\n";
+            this.richTextBox1.Text += "after performing " + currentTick + " simulation steps \n";
             richTextBox1.Text += transmitted_caption + SimulationStats.total_packets_gen_count + "\n";
             richTextBox1.Text += TTL_dropped_caption + SimulationStats.total_TTL_exceeded_packet_count + "\n";
             richTextBox1.Text += buffer_dropped_caption + SimulationStats.total_buffer_full_packet_count + "\n";
@@ -359,8 +499,26 @@ namespace soib
                 (double)SimulationStats.total_TTL_exceeded_packet_count) / (double)SimulationStats.total_packets_gen_count).ToString("0.##")
                 + "%\n"
                 ;
-            richTextBox1.Text += "Packets received: " + SimulationStats.total_packets_term_count+"\n";
+            richTextBox1.Text += "Packets received: " + SimulationStats.total_packets_term_count + "\n";
+            richTextBox1.Text += "Packets remaining in buffers: " + SimulationStats.total_packets_remaining_in_buffers + "\n";
+            try
+            {
+                richTextBox1.Text += "Average hops: " + SimulationStats.total_sum_hops / SimulationStats.total_packets_term_count + "\n";
+            }
+            catch (DivideByZeroException)
+            {
+                //richTextBox1.Text += "Average hops: " + SimulationStats.total_sum_hops / SimulationStats.total_packets_term_count + "\n";
 
+            }
+
+            try
+            {
+                richTextBox1.Text += "Average TTL of packets which reached destination: " + SimulationStats.total_reached_dest_TTL_sum / SimulationStats.total_packets_term_count + "\n";
+            }
+            catch (DivideByZeroException)
+            {
+
+            }
         }
 
     }

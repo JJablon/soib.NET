@@ -38,6 +38,8 @@ namespace soib
         public static int total_packets_term_count = 0; //packets which reached destination (all nodes)
         public static int total_TTL_exceeded_packet_count = 0;
         public static int total_buffer_full_packet_count = 0;
+        public static int total_packets_remaining_in_buffers = 0;
+        public static int total_sum_hops = 0;
 
         //sum of TTL of packets terminated
         public static int total_reached_dest_TTL_sum = 0;//this is the sum of 'TTL_current' fields (in all nodes) of packets which so reached destination in the node
@@ -49,6 +51,8 @@ namespace soib
             total_TTL_exceeded_packet_count = 0;
             total_reached_dest_TTL_sum = 0;
             total_buffer_full_packet_count = 0;
+            total_packets_remaining_in_buffers = 0;
+            total_sum_hops = 0;
         }
     }
 
@@ -63,9 +67,9 @@ namespace soib
     {
 
         public NodeController nc;
-        public void RefreshStats()
+        public List<int> RefreshStats()
         {
-            this.nc.RefreshStats();
+            return this.nc.RefreshStats();
 
         }
         public Simulation(int network_size, int seed=0)

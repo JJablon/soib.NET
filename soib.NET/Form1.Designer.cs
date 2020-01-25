@@ -36,6 +36,8 @@
             this.DroppedTTL = new System.Windows.Forms.ToolStripStatusLabel();
             this.DroppedBufferSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.DropRatio = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Packets_received = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.RandSeed = new System.Windows.Forms.TextBox();
@@ -61,7 +63,6 @@
             this.RoutingManual = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.simulationTime = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.stepTime = new System.Windows.Forms.NumericUpDown();
@@ -78,8 +79,8 @@
             this.TTL = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.Packets_received = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.simulationTime = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -92,7 +93,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.networkSize2)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.simulationTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.simulationLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.networkSize)).BeginInit();
@@ -149,6 +149,17 @@
             this.DropRatio.Size = new System.Drawing.Size(66, 17);
             this.DropRatio.Text = "Drop ratio: ";
             // 
+            // Packets_received
+            // 
+            this.Packets_received.Name = "Packets_received";
+            this.Packets_received.Size = new System.Drawing.Size(100, 17);
+            this.Packets_received.Text = "Packets received: ";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -158,6 +169,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox4);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox5);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             // 
@@ -165,7 +177,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.richTextBox1);
             this.splitContainer1.Size = new System.Drawing.Size(1009, 590);
-            this.splitContainer1.SplitterDistance = 365;
+            this.splitContainer1.SplitterDistance = 460;
             this.splitContainer1.TabIndex = 3;
             // 
             // groupBox5
@@ -237,7 +249,7 @@
             this.BufferSize.Size = new System.Drawing.Size(120, 20);
             this.BufferSize.TabIndex = 19;
             this.BufferSize.Value = new decimal(new int[] {
-            5000,
+            500,
             0,
             0,
             0});
@@ -277,7 +289,7 @@
             this.lambdaParam.Size = new System.Drawing.Size(120, 20);
             this.lambdaParam.TabIndex = 16;
             this.lambdaParam.Value = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
             0});
@@ -444,8 +456,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.simulationTime);
+            this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.stepTime);
@@ -472,35 +484,6 @@
             this.label10.Size = new System.Drawing.Size(12, 13);
             this.label10.TabIndex = 18;
             this.label10.Text = "s";
-            // 
-            // simulationTime
-            // 
-            this.simulationTime.DecimalPlaces = 3;
-            this.simulationTime.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.simulationTime.Location = new System.Drawing.Point(96, 71);
-            this.simulationTime.Maximum = new decimal(new int[] {
-            3600,
-            0,
-            0,
-            0});
-            this.simulationTime.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            393216});
-            this.simulationTime.Name = "simulationTime";
-            this.simulationTime.ReadOnly = true;
-            this.simulationTime.Size = new System.Drawing.Size(85, 20);
-            this.simulationTime.TabIndex = 17;
-            this.simulationTime.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
             // 
             // label11
             // 
@@ -584,7 +567,7 @@
             this.simulationLength.TabIndex = 7;
             this.simulationLength.ThousandsSeparator = true;
             this.simulationLength.Value = new decimal(new int[] {
-            10000,
+            1000,
             0,
             0,
             0});
@@ -711,20 +694,26 @@
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(640, 590);
+            this.richTextBox1.Size = new System.Drawing.Size(545, 590);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
-            // Packets_received
+            // simulationTime
             // 
-            this.Packets_received.Name = "Packets_received";
-            this.Packets_received.Size = new System.Drawing.Size(100, 17);
-            this.Packets_received.Text = "Packets received: ";
+            this.simulationTime.Location = new System.Drawing.Point(96, 71);
+            this.simulationTime.Name = "simulationTime";
+            this.simulationTime.Size = new System.Drawing.Size(86, 20);
+            this.simulationTime.TabIndex = 19;
+            this.simulationTime.Text = "16";
             // 
-            // toolStripStatusLabel1
+            // groupBox4
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            this.groupBox4.Location = new System.Drawing.Point(287, 13);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(170, 574);
+            this.groupBox4.TabIndex = 4;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Buffers load";
             // 
             // Form1
             // 
@@ -752,7 +741,6 @@
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.simulationTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.simulationLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.networkSize)).EndInit();
@@ -791,7 +779,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown simulationTime;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown lambdaParam;
@@ -814,6 +801,8 @@
         private System.Windows.Forms.TextBox RandSeed;
         private System.Windows.Forms.ToolStripStatusLabel Packets_received;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.TextBox simulationTime;
+        private System.Windows.Forms.GroupBox groupBox4;
     }
 }
 
