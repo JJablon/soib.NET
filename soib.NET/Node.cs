@@ -215,9 +215,9 @@ namespace soib
 
                                     }
 
-                                else
+                                //else
                                     //throw new Exception("this packet should have been terminated");
-                                    Console.WriteLine("this packet: " + p.uuid + " should have been terminated, count: "+(++invalid_termination));
+                                    //Console.WriteLine("this packet: " + p.uuid + " should have been terminated, count: "+(++invalid_termination));
 
                             }
                             else
@@ -361,6 +361,7 @@ namespace soib
                     current_node = getRandomNextNodeDirectlyConnectedTo(current_node);
                     if (counter > SimulationParams.TTL) break;
                 }
+                route.Add(to);
                 if (counter > SimulationParams.TTL) continue;
                 if (from == to) return new List<int> { from };
                 if (current_node == to) return route;
