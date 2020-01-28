@@ -39,6 +39,7 @@
             this.Packets_received = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.RandSeed = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -55,13 +56,12 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.RoutingRandom = new System.Windows.Forms.RadioButton();
-            this.RoutingShortest = new System.Windows.Forms.RadioButton();
             this.RoutingManual = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.simulationTime = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -78,8 +78,6 @@
             this.TTL = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.simulationTime = new System.Windows.Forms.TextBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -178,6 +176,15 @@
             this.splitContainer1.Size = new System.Drawing.Size(1009, 590);
             this.splitContainer1.SplitterDistance = 460;
             this.splitContainer1.TabIndex = 3;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Location = new System.Drawing.Point(292, 13);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(166, 574);
+            this.groupBox4.TabIndex = 4;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Buffers load";
             // 
             // groupBox5
             // 
@@ -356,11 +363,9 @@
             // 
             this.groupBox3.Controls.Add(this.label18);
             this.groupBox3.Controls.Add(this.label17);
-            this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.textBox2);
             this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Controls.Add(this.RoutingRandom);
-            this.groupBox3.Controls.Add(this.RoutingShortest);
             this.groupBox3.Controls.Add(this.RoutingManual);
             this.groupBox3.Location = new System.Drawing.Point(11, 251);
             this.groupBox3.Name = "groupBox3";
@@ -372,7 +377,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(78, 67);
+            this.label18.Location = new System.Drawing.Point(78, 45);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(13, 13);
             this.label18.TabIndex = 23;
@@ -382,37 +387,27 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(79, 44);
+            this.label17.Location = new System.Drawing.Point(79, 22);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(13, 13);
             this.label17.TabIndex = 22;
             this.label17.Text = "2";
             this.label17.Visible = false;
             // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(78, 21);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(13, 13);
-            this.label16.TabIndex = 21;
-            this.label16.Text = "1";
-            this.label16.Visible = false;
-            // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(8, 174);
+            this.textBox2.Location = new System.Drawing.Point(8, 173);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(243, 80);
+            this.textBox2.Size = new System.Drawing.Size(243, 88);
             this.textBox2.TabIndex = 4;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(10, 89);
+            this.textBox1.Location = new System.Drawing.Point(10, 67);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(241, 79);
+            this.textBox1.Size = new System.Drawing.Size(241, 100);
             this.textBox1.TabIndex = 3;
             this.textBox1.Text = "1, 2, 3, 4, 5,  25,  20,19,18,17,16,  11,12,13,14,15,  10,9,8,7,6,  1,  21,22,23," +
     "24,25,\r\n21,16,11,6,\r\n1, 2, 3, 4, 5,  25,  20,19,18,17,16,  11,12,13,14,15,  10,9" +
@@ -421,7 +416,7 @@
             // RoutingRandom
             // 
             this.RoutingRandom.AutoSize = true;
-            this.RoutingRandom.Location = new System.Drawing.Point(8, 42);
+            this.RoutingRandom.Location = new System.Drawing.Point(8, 20);
             this.RoutingRandom.Name = "RoutingRandom";
             this.RoutingRandom.Size = new System.Drawing.Size(65, 17);
             this.RoutingRandom.TabIndex = 2;
@@ -429,22 +424,11 @@
             this.RoutingRandom.UseVisualStyleBackColor = true;
             this.RoutingRandom.CheckedChanged += new System.EventHandler(this.RoutingRandom_CheckedChanged);
             // 
-            // RoutingShortest
-            // 
-            this.RoutingShortest.AutoSize = true;
-            this.RoutingShortest.Location = new System.Drawing.Point(8, 19);
-            this.RoutingShortest.Name = "RoutingShortest";
-            this.RoutingShortest.Size = new System.Drawing.Size(64, 17);
-            this.RoutingShortest.TabIndex = 1;
-            this.RoutingShortest.Text = "Shortest";
-            this.RoutingShortest.UseVisualStyleBackColor = true;
-            this.RoutingShortest.CheckedChanged += new System.EventHandler(this.RoutingShortest_CheckedChanged);
-            // 
             // RoutingManual
             // 
             this.RoutingManual.AutoSize = true;
             this.RoutingManual.Checked = true;
-            this.RoutingManual.Location = new System.Drawing.Point(8, 65);
+            this.RoutingManual.Location = new System.Drawing.Point(8, 43);
             this.RoutingManual.Name = "RoutingManual";
             this.RoutingManual.Size = new System.Drawing.Size(60, 17);
             this.RoutingManual.TabIndex = 0;
@@ -473,6 +457,15 @@
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Timing";
+            // 
+            // simulationTime
+            // 
+            this.simulationTime.Location = new System.Drawing.Point(96, 71);
+            this.simulationTime.Name = "simulationTime";
+            this.simulationTime.ReadOnly = true;
+            this.simulationTime.Size = new System.Drawing.Size(86, 20);
+            this.simulationTime.TabIndex = 19;
+            this.simulationTime.Text = "16";
             // 
             // label10
             // 
@@ -686,24 +679,6 @@
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
-            // simulationTime
-            // 
-            this.simulationTime.Location = new System.Drawing.Point(96, 71);
-            this.simulationTime.Name = "simulationTime";
-            this.simulationTime.ReadOnly = true;
-            this.simulationTime.Size = new System.Drawing.Size(86, 20);
-            this.simulationTime.TabIndex = 19;
-            this.simulationTime.Text = "16";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Location = new System.Drawing.Point(292, 13);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(166, 574);
-            this.groupBox4.TabIndex = 4;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Buffers load";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -761,7 +736,6 @@
         private System.Windows.Forms.NumericUpDown networkSize2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RadioButton RoutingRandom;
-        private System.Windows.Forms.RadioButton RoutingShortest;
         private System.Windows.Forms.RadioButton RoutingManual;
         private System.Windows.Forms.NumericUpDown stepTime;
         private System.Windows.Forms.Label label7;
@@ -784,7 +758,6 @@
         private System.Windows.Forms.ToolStripStatusLabel DroppedBufferSize;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ToolStripStatusLabel DropRatio;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TextBox RandSeed;

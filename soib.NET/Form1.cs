@@ -64,7 +64,7 @@ namespace soib
             this.stepTime.ReadOnly = true;
             this.RoutingManual.Enabled = false;
             this.RoutingRandom.Enabled = false;
-            this.RoutingShortest.Enabled = false;
+            //this.RoutingShortest.Enabled = false;
 
         }
         private void UnblockAllFields()
@@ -84,7 +84,7 @@ namespace soib
             this.stepTime.ReadOnly = false;
             this.RoutingManual.Enabled = true;
             this.RoutingRandom.Enabled = true;
-            this.RoutingShortest.Enabled = true;
+            //this.RoutingShortest.Enabled = true;
         }
 
 
@@ -140,7 +140,7 @@ namespace soib
         {
             if (RoutingRandom.Checked == true)
             {
-                RoutingShortest.Checked = false;
+                //RoutingShortest.Checked = false;
                 RoutingRandom.Checked = true;
                 RoutingManual.Checked = false;
                 this.textBox1.Visible = false;
@@ -148,7 +148,7 @@ namespace soib
             }
         }
 
-        private void RoutingShortest_CheckedChanged(object sender, EventArgs e)
+      /*  private void RoutingShortest_CheckedChanged(object sender, EventArgs e)
         {
             if (RoutingShortest.Checked == true)
             {
@@ -159,12 +159,12 @@ namespace soib
                 this.textBox2.Visible = false;
             }
         }
-
+        */
         private void RoutingManula_CheckedChanged(object sender, EventArgs e)
         {
             if (RoutingManual.Checked == true)
             {
-                RoutingShortest.Checked = false;
+                //RoutingShortest.Checked = false;
                 RoutingRandom.Checked = false;
                 RoutingManual.Checked = true;
                 this.textBox1.Visible = true;
@@ -356,13 +356,13 @@ namespace soib
                     SimulationStats.clearStats();
                     SimulationParams.routing_algorithm = 2;
                 }
-                else if (this.RoutingShortest.Checked == true)
+                /*else if (this.RoutingShortest.Checked == true)
                 {
                     SimulationParams.clearParams();
                     SimulationStats.clearStats();
                     SimulationParams.routing_algorithm = 1;
                 }
-
+                */
                 this.richTextBox1.Text += " \n";
                 this.richTextBox1.Text += "Simulation started at " + DateTime.Now.ToLongTimeString()+"\n";
                 
