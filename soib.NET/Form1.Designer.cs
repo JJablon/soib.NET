@@ -78,6 +78,9 @@
             this.TTL = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.GenerationLength = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -94,6 +97,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.simulationLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.networkSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TTL)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GenerationLength)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -113,7 +117,7 @@
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1009, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(816, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -173,8 +177,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.richTextBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(1009, 590);
-            this.splitContainer1.SplitterDistance = 460;
+            this.splitContainer1.Size = new System.Drawing.Size(816, 590);
+            this.splitContainer1.SplitterDistance = 470;
             this.splitContainer1.TabIndex = 3;
             // 
             // groupBox4
@@ -189,16 +193,16 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.RandSeed);
-            this.groupBox5.Location = new System.Drawing.Point(13, 536);
+            this.groupBox5.Location = new System.Drawing.Point(13, 527);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(268, 46);
+            this.groupBox5.Size = new System.Drawing.Size(268, 55);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Random generator seed";
             // 
             // RandSeed
             // 
-            this.RandSeed.Location = new System.Drawing.Point(19, 20);
+            this.RandSeed.Location = new System.Drawing.Point(19, 23);
             this.RandSeed.Name = "RandSeed";
             this.RandSeed.Size = new System.Drawing.Size(243, 20);
             this.RandSeed.TabIndex = 0;
@@ -367,9 +371,9 @@
             this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Controls.Add(this.RoutingRandom);
             this.groupBox3.Controls.Add(this.RoutingManual);
-            this.groupBox3.Location = new System.Drawing.Point(11, 251);
+            this.groupBox3.Location = new System.Drawing.Point(11, 276);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(257, 269);
+            this.groupBox3.Size = new System.Drawing.Size(257, 232);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Routing";
@@ -396,18 +400,18 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(8, 173);
+            this.textBox2.Location = new System.Drawing.Point(8, 150);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(243, 88);
+            this.textBox2.Size = new System.Drawing.Size(243, 74);
             this.textBox2.TabIndex = 4;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(10, 67);
+            this.textBox1.Location = new System.Drawing.Point(8, 66);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(241, 100);
+            this.textBox1.Size = new System.Drawing.Size(241, 78);
             this.textBox1.TabIndex = 3;
             this.textBox1.Text = "1, 2, 3, 4, 5,  25,  20,19,18,17,16,  11,12,13,14,15,  10,9,8,7,6,  1,  21,22,23," +
     "24,25,\r\n21,16,11,6,\r\n1, 2, 3, 4, 5,  25,  20,19,18,17,16,  11,12,13,14,15,  10,9" +
@@ -439,6 +443,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label16);
+            this.groupBox2.Controls.Add(this.GenerationLength);
+            this.groupBox2.Controls.Add(this.label19);
             this.groupBox2.Controls.Add(this.simulationTime);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label11);
@@ -453,14 +460,14 @@
             this.groupBox2.Controls.Add(this.Pause);
             this.groupBox2.Location = new System.Drawing.Point(6, 116);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(262, 129);
+            this.groupBox2.Size = new System.Drawing.Size(262, 154);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Timing";
             // 
             // simulationTime
             // 
-            this.simulationTime.Location = new System.Drawing.Point(96, 71);
+            this.simulationTime.Location = new System.Drawing.Point(101, 94);
             this.simulationTime.Name = "simulationTime";
             this.simulationTime.ReadOnly = true;
             this.simulationTime.Size = new System.Drawing.Size(86, 20);
@@ -470,7 +477,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(188, 73);
+            this.label10.Location = new System.Drawing.Point(193, 96);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(12, 13);
             this.label10.TabIndex = 18;
@@ -479,7 +486,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 73);
+            this.label11.Location = new System.Drawing.Point(12, 96);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(77, 13);
             this.label11.TabIndex = 16;
@@ -488,7 +495,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(188, 48);
+            this.label9.Location = new System.Drawing.Point(193, 71);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(20, 13);
             this.label9.TabIndex = 15;
@@ -496,7 +503,7 @@
             // 
             // stepTime
             // 
-            this.stepTime.Location = new System.Drawing.Point(96, 46);
+            this.stepTime.Location = new System.Drawing.Point(101, 69);
             this.stepTime.Maximum = new decimal(new int[] {
             4000,
             0,
@@ -520,7 +527,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 48);
+            this.label7.Location = new System.Drawing.Point(12, 71);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(51, 13);
             this.label7.TabIndex = 13;
@@ -529,7 +536,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(186, 21);
+            this.label5.Location = new System.Drawing.Point(191, 21);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(32, 13);
             this.label5.TabIndex = 12;
@@ -542,7 +549,7 @@
             0,
             0,
             0});
-            this.simulationLength.Location = new System.Drawing.Point(96, 19);
+            this.simulationLength.Location = new System.Drawing.Point(101, 19);
             this.simulationLength.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -576,7 +583,7 @@
             // Stop
             // 
             this.Stop.Enabled = false;
-            this.Stop.Location = new System.Drawing.Point(154, 97);
+            this.Stop.Location = new System.Drawing.Point(154, 120);
             this.Stop.Name = "Stop";
             this.Stop.Size = new System.Drawing.Size(61, 23);
             this.Stop.TabIndex = 6;
@@ -586,7 +593,7 @@
             // 
             // Run
             // 
-            this.Run.Location = new System.Drawing.Point(13, 98);
+            this.Run.Location = new System.Drawing.Point(13, 121);
             this.Run.Name = "Run";
             this.Run.Size = new System.Drawing.Size(54, 23);
             this.Run.TabIndex = 4;
@@ -597,7 +604,7 @@
             // Pause
             // 
             this.Pause.Enabled = false;
-            this.Pause.Location = new System.Drawing.Point(73, 97);
+            this.Pause.Location = new System.Drawing.Point(73, 120);
             this.Pause.Name = "Pause";
             this.Pause.Size = new System.Drawing.Size(75, 23);
             this.Pause.TabIndex = 5;
@@ -675,15 +682,61 @@
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(545, 590);
+            this.richTextBox1.Size = new System.Drawing.Size(342, 590);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(191, 46);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(32, 13);
+            this.label16.TabIndex = 22;
+            this.label16.Text = "steps";
+            // 
+            // GenerationLength
+            // 
+            this.GenerationLength.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.GenerationLength.Location = new System.Drawing.Point(101, 44);
+            this.GenerationLength.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.GenerationLength.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.GenerationLength.Name = "GenerationLength";
+            this.GenerationLength.Size = new System.Drawing.Size(85, 20);
+            this.GenerationLength.TabIndex = 21;
+            this.GenerationLength.ThousandsSeparator = true;
+            this.GenerationLength.Value = new decimal(new int[] {
+            800,
+            0,
+            0,
+            0});
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(10, 46);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(91, 13);
+            this.label19.TabIndex = 20;
+            this.label19.Text = "Generation length";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1009, 612);
+            this.ClientSize = new System.Drawing.Size(816, 612);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.MaximizeBox = false;
@@ -710,6 +763,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.simulationLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.networkSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TTL)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GenerationLength)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -765,6 +819,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.TextBox simulationTime;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown GenerationLength;
+        private System.Windows.Forms.Label label19;
     }
 }
 

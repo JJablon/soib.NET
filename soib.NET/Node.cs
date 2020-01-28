@@ -127,6 +127,7 @@ namespace soib
 
         public void SimulationTick(int tick_no)
         {
+            if(tick_no<=SimulationParams.generationLength)
             for(int n = 0; n < SimulationParams.lambda; n++)
             {
                 if (SimulationParams.network_size < 2) throw new IndexOutOfRangeException();

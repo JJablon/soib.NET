@@ -17,6 +17,7 @@ namespace soib
         public static int TTL;
         public static int buffer_size;
         public static int routing_algorithm;
+        public static int generationLength;
 
 
         public static void clearParams()
@@ -26,6 +27,7 @@ namespace soib
             TTL = 0;
             buffer_size = 0;
             routing_algorithm = 0;
+            generationLength = 0;
         }
 
 
@@ -53,6 +55,7 @@ namespace soib
             total_buffer_full_packet_count = 0;
             total_packets_remaining_in_buffers = 0;
             total_sum_hops = 0;
+
         }
     }
 
@@ -141,7 +144,7 @@ namespace soib
 
     }
 
-
+    /*
     public class Test1
     {
 
@@ -179,7 +182,7 @@ namespace soib
 
 
     }
-
+    */
 
 
 }

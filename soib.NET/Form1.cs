@@ -20,7 +20,7 @@ namespace soib
         string packets_received_caption;
 
         bool showBufferNumberUsage = false;
-
+        Random r = new Random();
 
 
         public Form1()
@@ -57,7 +57,7 @@ namespace soib
             TTL.ReadOnly = true;
             this.lambdaParam.ReadOnly = true;
             this.BufferSize.ReadOnly = true;
-
+            this.GenerationLength.ReadOnly = true;
 
 
             this.simulationLength.ReadOnly = true;
@@ -77,7 +77,7 @@ namespace soib
             TTL.ReadOnly = false;
             this.lambdaParam.ReadOnly = false;
             this.BufferSize.ReadOnly = false;
-
+            this.GenerationLength.ReadOnly = false;
 
 
             this.simulationLength.ReadOnly = false;
@@ -183,6 +183,7 @@ namespace soib
 
         private void Run_Click(object sender, EventArgs e)
         {
+
             if (nodesLabels != null && nodesLabels.Count > 0)
             {
                 foreach( Label l in nodesLabels)
@@ -369,12 +370,13 @@ namespace soib
 
                 isRunning = true;
                 isPaused = false;
-                SimulationParams.buffer_size = (int) this.BufferSize.Value;
+
+                SimulationParams.buffer_size = (int)this.BufferSize.Value;
                 SimulationParams.lambda = (int)this.lambdaParam.Value;
                 SimulationParams.network_size = (int)networkSize.Value;
                 SimulationParams.TTL = (int)this.TTL.Value;
-
-
+                double d = 0.98 + r.NextDouble() * 0.04f;
+                SimulationParams.generationLength = (int)((double)this.GenerationLength.Value*d) ;
 
                 timer1.Enabled = true;
                 BlockAllFields();
@@ -491,6 +493,7 @@ namespace soib
                 this.Stop.Enabled = false;
                 UnblockAllFields();
                 isRunning = false;
+                isPaused = false;
                 SimulationFinished();
 
 
@@ -510,8 +513,8 @@ namespace soib
                 (double)SimulationStats.total_TTL_exceeded_packet_count) / (double)SimulationStats.total_packets_gen_count).ToString("0.##")
                 + "%\n"
                 ;
-            richTextBox1.Text += "Packets received: " + SimulationStats.total_packets_term_count + "\n";
-            richTextBox1.Text += "Packets remaining in buffers: " + SimulationStats.total_packets_remaining_in_buffers + "\n";
+            richTextBox1.Text += "Packets received: " + (SimulationStats.total_packets_term_count) + "\n";//+ SimulationStats.total_packets_remaining_in_buffers) + "\n";
+            //richTextBox1.Text += "Packets remaining in buffers: " + SimulationStats.total_packets_remaining_in_buffers + "\n";
             try
             {
                 richTextBox1.Text += "Average hops: " + SimulationStats.total_sum_hops / SimulationStats.total_packets_term_count + "\n";
