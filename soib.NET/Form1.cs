@@ -514,7 +514,7 @@ namespace soib
                 + "%\n"
                 ;
             richTextBox1.Text += "Packets received: " + (SimulationStats.total_packets_term_count) + "\n";//+ SimulationStats.total_packets_remaining_in_buffers) + "\n";
-            //richTextBox1.Text += "Packets remaining in buffers: " + SimulationStats.total_packets_remaining_in_buffers + "\n";
+            richTextBox1.Text += "Packets remaining in buffers: " + SimulationStats.total_packets_remaining_in_buffers + "\n";
             try
             {
                 richTextBox1.Text += "Average hops: " + SimulationStats.total_sum_hops / SimulationStats.total_packets_term_count + "\n";
