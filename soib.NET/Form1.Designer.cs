@@ -61,6 +61,9 @@
             this.RoutingRandom = new System.Windows.Forms.RadioButton();
             this.RoutingManual = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.GenerationLength = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
             this.simulationTime = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -78,9 +81,7 @@
             this.TTL = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.GenerationLength = new System.Windows.Forms.NumericUpDown();
-            this.label19 = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -93,11 +94,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.networkSize2)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GenerationLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.simulationLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.networkSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TTL)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GenerationLength)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -465,6 +466,52 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Timing";
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(191, 46);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(32, 13);
+            this.label16.TabIndex = 22;
+            this.label16.Text = "steps";
+            // 
+            // GenerationLength
+            // 
+            this.GenerationLength.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.GenerationLength.Location = new System.Drawing.Point(101, 44);
+            this.GenerationLength.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.GenerationLength.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.GenerationLength.Name = "GenerationLength";
+            this.GenerationLength.Size = new System.Drawing.Size(85, 20);
+            this.GenerationLength.TabIndex = 21;
+            this.GenerationLength.ThousandsSeparator = true;
+            this.GenerationLength.Value = new decimal(new int[] {
+            800,
+            0,
+            0,
+            0});
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(10, 46);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(91, 13);
+            this.label19.TabIndex = 20;
+            this.label19.Text = "Generation length";
+            // 
             // simulationTime
             // 
             this.simulationTime.Location = new System.Drawing.Point(101, 94);
@@ -686,51 +733,9 @@
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
-            // label16
+            // timer2
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(191, 46);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(32, 13);
-            this.label16.TabIndex = 22;
-            this.label16.Text = "steps";
-            // 
-            // GenerationLength
-            // 
-            this.GenerationLength.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.GenerationLength.Location = new System.Drawing.Point(101, 44);
-            this.GenerationLength.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.GenerationLength.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.GenerationLength.Name = "GenerationLength";
-            this.GenerationLength.Size = new System.Drawing.Size(85, 20);
-            this.GenerationLength.TabIndex = 21;
-            this.GenerationLength.ThousandsSeparator = true;
-            this.GenerationLength.Value = new decimal(new int[] {
-            800,
-            0,
-            0,
-            0});
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(10, 46);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(91, 13);
-            this.label19.TabIndex = 20;
-            this.label19.Text = "Generation length";
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // Form1
             // 
@@ -741,7 +746,7 @@
             this.Controls.Add(this.statusStrip1);
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "SOIB Manhattan Network Simulator Marek Pankowski & Jacek Jablonski";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -759,11 +764,11 @@
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GenerationLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.simulationLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.networkSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TTL)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GenerationLength)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -822,6 +827,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.NumericUpDown GenerationLength;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 

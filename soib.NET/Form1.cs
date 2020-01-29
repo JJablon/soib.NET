@@ -379,6 +379,7 @@ namespace soib
                 SimulationParams.generationLength = (int)((double)this.GenerationLength.Value*d) ;
 
                 timer1.Enabled = true;
+                timer2.Enabled = true;
                 BlockAllFields();
                 this.Run.Enabled = false;
                 this.Pause.Enabled = true;
@@ -399,6 +400,7 @@ namespace soib
             {
                 this.richTextBox1.Text += "Simulation resumed at " + DateTime.Now.ToLongTimeString() + "\n";
                 timer1.Enabled = true;
+                timer2.Enabled = true;
                 isPaused = false;
                 isRunning = true;
                 this.Run.Enabled = false;
@@ -414,6 +416,7 @@ namespace soib
         private void Pause_Click(object sender, EventArgs e)
         {
             timer1.Enabled = false;
+            timer2.Enabled = false;
             if (isRunning&&!isPaused)
             {
                 this.richTextBox1.Text += "Simulation paused at " + DateTime.Now.ToLongTimeString() + "\n";
@@ -429,44 +432,9 @@ namespace soib
         private void timer1_Tick(object sender, EventArgs e)
         {
 
-            try
-            {
-                this.toolStripProgressBar1.Value = ((int)((double)((double)currentTick) * 100 / ((double)simulationLength.Value)));
-            }
-            catch (Exception) { }
 
             simulation.SimulationTick(currentTick++);
-            List<int> bufferLoad = 
-            simulation.RefreshStats();
-            int i = 0;
-            foreach(int load in bufferLoad)
-            {
-                try
-                {
-                    this.nodesLoads[i].Value = load;
-
-                }
-                catch (IndexOutOfRangeException) { }
-                catch (ArgumentOutOfRangeException) { }
-                try
-                {
-                    this.nodesLoadNumberLabels[i].Text = load + "";
-                }
-                catch (IndexOutOfRangeException) { }
-                catch (ArgumentOutOfRangeException) { }
-                i++;
-            }
-
-            Transmitted.Text = transmitted_caption + SimulationStats.total_packets_gen_count + "   ";
-            DroppedTTL.Text = TTL_dropped_caption + SimulationStats.total_TTL_exceeded_packet_count + "   "; 
-            DroppedBufferSize.Text = buffer_dropped_caption + SimulationStats.total_buffer_full_packet_count + "   ";
-            DropRatio.Text = drop_ratio_text +
-                ((double)((double)SimulationStats.total_buffer_full_packet_count +
-                (double)SimulationStats.total_TTL_exceeded_packet_count) / (double)SimulationStats.total_packets_gen_count).ToString("0.##")
-                + "% "
-                ;
-            Packets_received.Text = packets_received_caption + SimulationStats.total_packets_term_count;
-
+            
             if (currentTick >= simulationLength.Value)
             {
                
@@ -485,6 +453,7 @@ namespace soib
         private void StopSimulation()
         {
             timer1.Enabled = false;
+            timer2.Enabled = false;
             if (isRunning || isPaused)
             {
                 this.Run.Enabled = true;
@@ -535,5 +504,44 @@ namespace soib
             }
         }
 
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            List<int> bufferLoad =
+            simulation.RefreshStats();
+            int i = 0;
+            foreach (int load in bufferLoad)
+            {
+                try
+                {
+                    this.nodesLoads[i].Value = load;
+
+                }
+                catch (IndexOutOfRangeException) { }
+                catch (ArgumentOutOfRangeException) { }
+                try
+                {
+                    if (showBufferNumberUsage) this.nodesLoadNumberLabels[i].Text = load + "";
+                }
+                catch (IndexOutOfRangeException) { }
+                catch (ArgumentOutOfRangeException) { }
+                i++;
+            }
+
+            Transmitted.Text = transmitted_caption + SimulationStats.total_packets_gen_count + "   ";
+            DroppedTTL.Text = TTL_dropped_caption + SimulationStats.total_TTL_exceeded_packet_count + "   ";
+            DroppedBufferSize.Text = buffer_dropped_caption + SimulationStats.total_buffer_full_packet_count + "   ";
+            DropRatio.Text = drop_ratio_text +
+                ((double)((double)SimulationStats.total_buffer_full_packet_count +
+                (double)SimulationStats.total_TTL_exceeded_packet_count) / (double)SimulationStats.total_packets_gen_count).ToString("0.##")
+                + "% "
+                ;
+            Packets_received.Text = packets_received_caption + SimulationStats.total_packets_term_count;
+            try
+            {
+                this.toolStripProgressBar1.Value = ((int)((double)((double)currentTick) * 100 / ((double)simulationLength.Value)));
+            }
+            catch (Exception) { }
+
+        }
     }
 }
