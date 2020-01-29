@@ -479,7 +479,7 @@ namespace soib
             richTextBox1.Text += buffer_dropped_caption + SimulationStats.total_buffer_full_packet_count + "\n";
             richTextBox1.Text += drop_ratio_text +
                 ((double)((double)SimulationStats.total_buffer_full_packet_count +
-                (double)SimulationStats.total_TTL_exceeded_packet_count) / (double)SimulationStats.total_packets_gen_count).ToString("0.##")
+                (double)SimulationStats.total_TTL_exceeded_packet_count) / (double)SimulationStats.total_packets_gen_count * (double)100).ToString("0.##")
                 + "%\n"
                 ;
             richTextBox1.Text += "Packets received: " + (SimulationStats.total_packets_term_count) + "\n";//+ SimulationStats.total_packets_remaining_in_buffers) + "\n";
@@ -532,7 +532,7 @@ namespace soib
             DroppedBufferSize.Text = buffer_dropped_caption + SimulationStats.total_buffer_full_packet_count + "   ";
             DropRatio.Text = drop_ratio_text +
                 ((double)((double)SimulationStats.total_buffer_full_packet_count +
-                (double)SimulationStats.total_TTL_exceeded_packet_count) / (double)SimulationStats.total_packets_gen_count).ToString("0.##")
+                (double)SimulationStats.total_TTL_exceeded_packet_count) / (double)SimulationStats.total_packets_gen_count * (double)100).ToString("0.##")
                 + "% "
                 ;
             Packets_received.Text = packets_received_caption + SimulationStats.total_packets_term_count;
